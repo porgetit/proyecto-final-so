@@ -25,7 +25,7 @@ def launch_app() -> None:
         url=html_path.as_uri(),
         js_api=bridge,
     )
-    webview.start(gui="edgechromium", debug=True)
+    webview.start(gui="edgechromium", debug=False)
 
 
 class AppBridge:
