@@ -10,7 +10,7 @@ from .base import SchedulingAlgorithm, SchedulingDecision
 
 
 class SJFAlgorithm(SchedulingAlgorithm):
-    """Simple non-preemptive SJF placeholder."""
+    """Non-preemptive SJF: dispatches the smallest remaining burst."""
 
     name = "sjf"
 
@@ -30,5 +30,22 @@ class SJFAlgorithm(SchedulingAlgorithm):
         ready_queue: ReadyQueue,
     ) -> SchedulingDecision:
         """Pick the job with the shortest remaining burst."""
-        # TODO: Implement SJF selection and completion handling.
-        raise NotImplementedError("SJF decision logic not implemented yet.")
+        if running:
+            return SchedulingDecision(next_process=running)
+
+        if len(ready_queue) == 0:
+            return SchedulingDecision(next_process=None)
+
+        # Choose the PCB with the smallest remaining burst time.
+        shortest = min(ready_queue, key=lambda pcb: pcb.remaining_time)
+
+        # Rebuild the queue without the selected PCB.
+        buffer = []
+        while len(ready_queue) > 0:
+            candidate = ready_queue.dequeue()
+            if candidate is shortest:
+                continue
+            buffer.append(candidate)
+        ready_queue.extend(buffer)
+
+        return SchedulingDecision(next_process=shortest)

@@ -14,7 +14,7 @@ class SchedulingDecision:
     """Represents the outcome of a scheduling step."""
 
     next_process: PCB | None
-    preempt_current: bool = False
+    preempt_current: bool = False # note for spanish speakers: "preemptar" significa interrumpir el proceso actual
     timeslice: int | None = None
     notes: str | None = None
 
