@@ -84,15 +84,15 @@ El I/O puede desactivarse:
 ## Configuración y métricas
 
 ### Métricas agregadas
+```math
 
-[
 \text{throughput} = \frac{\lvert \text{completed} \rvert}{\text{clock}}
-]
+```
 
-[
-\text{cpu_utilization} = \frac{\text{busy_time}}{\text{clock}}
-]
+```math
+\text{cpu utilization} = \frac{\text{busy time}}{\text{clock}}
 
+```
 Además se registran:
 
 * número de *context_switches*
@@ -135,15 +135,13 @@ Esto permite añadir nuevos algoritmos sin modificar el bucle principal del simu
 **Definición:** no expropiativo; los procesos se ejecutan en orden de llegada.
 
 **Selección del proceso:**
-
-[
+```math
 p^* = \arg\min_{p \in R_t} (a_p, i_p)
-]
-
+```
 donde:
 
-* ( a_p ) = tiempo de llegada
-* ( i_p ) = índice de estabilidad (orden de entrada a la cola)
+* $`a_{p}`$ = tiempo de llegada
+* $`i_p`$ = índice de estabilidad (orden de entrada a la cola)
 
 Una vez seleccionado, el proceso corre hasta finalizar o bloquearse por I/O.
 
@@ -155,14 +153,14 @@ Una vez seleccionado, el proceso corre hasta finalizar o bloquearse por I/O.
 
 **Selección del proceso:**
 
-[
+```math
 p^* = \arg\min_{p \in R_t} (\text{rem}_p, i_p)
-]
+```
 
 donde:
 
-* ( \text{rem}_p ) = ráfaga restante
-* ( i_p ) garantiza estabilidad en empates
+* $`\text{rem}_p`$ = ráfaga restante
+* $`i_p`$ garantiza estabilidad en empates
 
 El proceso se ejecuta hasta terminar o bloquearse.
 
@@ -170,7 +168,7 @@ El proceso se ejecuta hasta terminar o bloquearse.
 
 ### Round Robin (RR)
 
-**Definición:** expropiativo; rota procesos con cuantum ( q ), sobreescribible vía `time_slice`.
+**Definición:** expropiativo; rota procesos con cuantum ($q$), sobreescribible vía `time_slice`.
 
 Mantenimiento:
 
@@ -179,7 +177,7 @@ Mantenimiento:
 
 **Reglas:**
 
-1. Si ( r ) existe y ( t - d < q ) → continúa.
+1. Si $r$ existe y $t - d < q$ → continúa.
 2. Si expira el cuantum y hay procesos en *ready* → `r` se encola de nuevo y se toma el siguiente.
 3. Si no hay proceso en ejecución → se toma el siguiente de *ready*.
 4. I/O interrumpe y mueve a *BLOCKED*.
