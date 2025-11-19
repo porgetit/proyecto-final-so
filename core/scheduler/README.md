@@ -84,6 +84,7 @@ El I/O puede desactivarse:
 ## Configuración y métricas
 
 ### Métricas agregadas
+
 ```math
 
 \text{throughput} = \frac{\lvert \text{completed} \rvert}{\text{clock}}
@@ -93,6 +94,7 @@ El I/O puede desactivarse:
 \text{cpu utilization} = \frac{\text{busy time}}{\text{clock}}
 
 ```
+
 Además se registran:
 
 * número de *context_switches*
@@ -135,9 +137,11 @@ Esto permite añadir nuevos algoritmos sin modificar el bucle principal del simu
 **Definición:** no expropiativo; los procesos se ejecutan en orden de llegada.
 
 **Selección del proceso:**
+
 ```math
 p^* = \arg\min_{p \in R_t} (a_p, i_p)
 ```
+
 donde:
 
 * $`a_{p}`$ = tiempo de llegada
