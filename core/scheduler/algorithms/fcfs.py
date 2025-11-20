@@ -29,5 +29,8 @@ class FCFSAlgorithm(SchedulingAlgorithm):
         ready_queue: ReadyQueue,
     ) -> SchedulingDecision:
         """FCFS always selects the head of the ready queue."""
-        # TODO: Implement FCFS logic (handle idle CPU, completion, metrics, etc.).
-        raise NotImplementedError("FCFS decision logic not implemented yet.")
+        if running:
+            return SchedulingDecision(next_process=running)
+
+        next_proc = ready_queue.dequeue()
+        return SchedulingDecision(next_process=next_proc)

@@ -173,7 +173,7 @@ Para cada simulación se calculan:
 
 ## Notas Importantes
 
-1. **Estado actual**: Los algoritmos de planificación están parcialmente implementados. La CLI carga correctamente los datos pero las simulaciones retornan métricas vacías.
+1. **Estado actual**: Los algoritmos de planificación están parcialmente implementados en este código hasta el momento antes de unirlo al demis compañeros. La CLI carga correctamente los datos pero las simulaciones retornan métricas vacías.
 
 2. **Permisos**: El sistema de archivos implementa permisos básicos tipo Unix (rwx) solo para el propietario.
 
