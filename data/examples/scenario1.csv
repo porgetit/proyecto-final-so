@@ -1,0 +1,6 @@
+# Scenario 1: Basic FCFS test with 4 processes
+# Format: pid,arrival_time,burst_time,priority
+1,0,8,1
+2,1,4,2
+3,2,9,3
+4,3,5,1

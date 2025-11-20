@@ -16,11 +16,13 @@ class FsService:
         self._command_map: Mapping[str, str] = {
             "ls": "ls",
             "cd": "cd",
+            "pwd": "pwd",
             "mkdir": "mkdir",
             "touch": "touch",
             "cat": "cat",
             "write": "write",
             "rm": "rm",
+            "tree": "tree",
         }
 
     def execute(self, command: str, args: Iterable[str]) -> str:
