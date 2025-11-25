@@ -1,0 +1,7 @@
+# Scenario 3: Round Robin test with mixed burst times
+# Format: pid,arrival_time,burst_time
+1,0,10
+2,1,2
+3,2,7
+4,3,3
+5,4,8
