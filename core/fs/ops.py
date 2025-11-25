@@ -1,7 +1,6 @@
-"""High level filesystem operations invoked by the CLI/services."""
+"""Operaciones de alto nivel del sistema de archivos invocadas por la CLI/servicios."""
 
 from __future__ import annotations
-
 from dataclasses import dataclass
 from typing import Optional
 
@@ -11,16 +10,19 @@ from .permissions import Permission, PermissionSet
 
 @dataclass
 class FileSystemOps:
-    """Stateful helper that exposes POSIX-like commands."""
+    """Implementa operaciones de archivos de alto nivel similares a POSIX."""
 
     root: Directory
     user: User
     cwd: Directory | None = None
 
-    def __post_init__(self) -> None:
+    def __post_init__(self):
         if self.cwd is None:
             self.cwd = self.root
 
+    # -------------------------
+    # ls
+    # -------------------------
     def ls(self, path: str | None = None) -> list[str]:
         """List the contents of the given path."""
         target_dir = self.cwd if path is None else self.resolve(path)
@@ -58,6 +60,9 @@ class FileSystemOps:
         self.cwd = target
         return target.path()
 
+    # -------------------------
+    # mkdir
+    # -------------------------
     def mkdir(self, path: str) -> Directory:
         """Create a directory."""
         if not path:
@@ -84,6 +89,9 @@ class FileSystemOps:
         parent.add_child(new_dir)
         return new_dir
 
+    # -------------------------
+    # touch
+    # -------------------------
     def touch(self, path: str) -> File:
         """Create an empty file or update its timestamps."""
         if not path:
@@ -116,6 +124,9 @@ class FileSystemOps:
         parent.add_child(new_file)
         return new_file
 
+    # -------------------------
+    # cat
+    # -------------------------
     def cat(self, path: str) -> str:
         """Return the contents of a file."""
         if not path:
@@ -193,6 +204,17 @@ class FileSystemOps:
         
         parent.remove_child(target.name)
 
+        if node.parent is None:
+            raise PermissionError("Cannot remove root directory")
+
+        if isinstance(node, Directory) and node.children and not recursive:
+            raise IsADirectoryError("Directory not empty (use recursive=True)")
+
+        node.parent.remove_child(node.name)
+
+    # -------------------------
+    # resolve
+    # -------------------------
     def resolve(self, path: str) -> FileSystemEntity:
         """Resolve an absolute or relative path to an entity."""
         if not path or path == ".":
