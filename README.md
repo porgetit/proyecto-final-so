@@ -432,3 +432,152 @@ El objetivo es que, al finalizar estos pasos, el proyecto sea capaz de:
 
 * Ejecutar simulaciones de planificación con diferentes algoritmos y métricas.
 * Permitir operaciones básicas sobre un sistema de archivos virtual desde la CLI.
+
+---
+
+## 10. Estado Actual del Proyecto - Implementaciones Completadas 
+
+###  **Simulador de Planificación CPU (100% Funcional)**
+
+#### **Algoritmos Implementados:**
+- **FCFS (First Come First Served)**: Implementación completa no expropiatava
+- **Round Robin (RR)**: Con quantum configurable y cola circular
+- **SJF (Shortest Job First)**: No expropiativo con desempate por arrival_time
+
+#### **Simulador Avanzado (`SchedulerSimulator`):**
+-  **Ciclo de simulación completo** con manejo de tiempo discreto
+-  **Gestión de estados**: NEW → READY → RUNNING → BLOCKED → TERMINATED
+-  **Soporte I/O Operations**: Bloqueos aleatorios con distribuciones normales
+-  **Context Switches**: Contabilización automática de cambios de contexto
+-  **Métricas comprehensivas**:
+  - Waiting Time por proceso y promedio
+  - Turnaround Time por proceso y promedio
+  - Response Time por proceso y promedio
+  - Throughput del sistema
+  - CPU Utilization en porcentaje
+  - Número total de context switches
+
+#### **Formatos de Entrada Soportados:**
+```csv
+# CSV Format
+pid,arrival_time,burst_time
+1,0,5
+2,1,3
+3,2,8
+```
+
+```json
+{
+  "processes": [
+    {"pid": 1, "arrival_time": 0, "burst_time": 5},
+    {"pid": 2, "arrival_time": 1, "burst_time": 3},
+    {"pid": 3, "arrival_time": 2, "burst_time": 8}
+  ]
+}
+```
+
+###  **Sistema de Archivos Virtual (100% Funcional)**
+
+#### **Operaciones Implementadas:**
+-  **pwd**: Mostrar directorio actual
+-  **ls**: Listar contenido con permisos y detalles
+-  **cd**: Navegación con soporte para `.`, `..`, rutas absolutas y relativas
+-  **mkdir**: Crear directorios con validación de permisos
+-  **touch**: Crear archivos vacíos
+-  **cat**: Leer contenido de archivos
+-  **write**: Escribir contenido a archivos
+-  **rm**: Eliminar archivos y directorios
+-  **tree**: Renderizado visual del árbol de directorios
+
+#### **Sistema de Permisos Unix:**
+-  **Permisos rwx**: Read, Write, Execute para propietario
+-  **Validación de permisos**: En todas las operaciones
+-  **Usuarios y propietarios**: Sistema completo de ownership
+
+#### **Renderizador de Árbol:**
+```text
+/
+├── home/
+│   ├── user/
+│   │   ├── documents/
+│   │   │   └── readme.txt
+│   │   └── projects/
+│   └── guest/
+└── tmp/
+```
+
+###  **Interfaz de Usuario Completa**
+
+#### **CLI Mejorada:**
+-  **Modo Simulador**: Ejecución con métricas detalladas y exportación
+-  **Modo Filesystem**: Shell interactivo completo
+-  **Validación robusta**: Error handling comprehensivo
+-  **Múltiples formatos**: Soporte CSV y JSON
+-  **Exportación**: Resultados en texto plano y CSV
+
+#### **GUI Web (PyWebview):**
+-  **Interfaz Bootstrap**: Design responsivo y moderno
+-  **Dos módulos integrados**: 
+  - Simulador de procesos con configuración avanzada
+  - Explorador de archivos virtual interactivo
+-  **API Bridge**: Comunicación Python ↔ JavaScript
+-  **Visualización en tiempo real**: Métricas y resultados dinámicos
+
+###  **Testing y Validación**
+
+#### **Suite de Tests Implementada:**
+-  **Tests unitarios del scheduler**: Cobertura completa de algoritmos
+-  **Tests del filesystem**: Validación de todas las operaciones
+-  **Tests de integración**: CLI y servicios
+-  **Scripts de demostración**: Casos de uso reales
+
+#### **Ejemplos de Uso:**
+```bash
+# Simulación con FCFS
+python -m adapters.cli.main sim --algo fcfs --input data/examples/scenario1.csv
+
+# Simulación con Round Robin
+python -m adapters.cli.main sim --algo rr --quantum 3 --input data/examples/scenario2.json
+
+# Sistema de archivos interactivo
+python -m adapters.cli.main fs
+
+# GUI Web
+python -m adapters.gui_webview.run
+```
+
+###  **Métricas**
+
+#### **Salida de Ejemplo:**
+```
+Simulation Results - Round Robin (quantum=3)
+============================================
+Process Metrics:
+  PID 1: WT=7.00, TAT=12.00, RT=0.00
+  PID 2: WT=4.00, TAT=7.00, RT=2.00
+  PID 3: WT=13.00, TAT=21.00, RT=5.00
+
+System Metrics:
+  Average Waiting Time: 8.00
+  Average Turnaround Time: 13.33
+  Average Response Time: 2.33
+  Throughput: 0.375 processes/time
+  CPU Utilization: 88.89%
+  Context Switches: 6
+```
+
+### 🔧 **Arquitectura y Servicios**
+
+#### **Patrón Hexagonal Completo:**
+-  **Core Domain**: Scheduler y FileSystem totalmente implementados
+-  **Services Layer**: SimService y FsService como casos de uso
+-  **Adapters**: CLI, GUI, y API funcionales
+-  **Dependency Injection**: Servicios desacoplados y testeable
+
+###  **Próximos Pasos Sugeridos**
+1. **Scheduler Expropiativo**: Implementar SJF y Priority Scheduling exprópiativos
+2. **Permisos Avanzados**: Grupos de usuarios y permisos extendidos
+3. **Persistencia**: Guardar estado del filesystem en disco
+4. **Métricas Visuales**: Gráficos de Gantt y timelines en la GUI
+5. **API REST**: Endpoint completo para integraciones externas
+

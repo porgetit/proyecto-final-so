@@ -41,15 +41,13 @@ class SimService:
     def run(self, request: SimulationRequest) -> SimulationMetrics:
         """
         Execute the simulation for the given request payload.
-
-        # TODO: Flesh out conversion from JobSpec -> PCB, select algorithm, and run simulator.
         """
         algorithm = self._build_algorithm(request)
         sim = self.simulator_cls(SimulationConfig(algorithm=algorithm))
         pcbs: list[PCB] = [self._job_to_pcb(job) for job in request.jobs]
         sim.load_jobs(pcbs)
-        # Actual simulator loop not implemented yet, so we return an empty metrics container.
-        return SimulationMetrics()
+        # Execute the actual simulation
+        return sim.run()
 
     def _job_to_pcb(self, job: JobSpec) -> PCB:
         """Convert a JobSpec into a PCB instance."""
